@@ -1,0 +1,73 @@
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background-color: #0a0a2b; /* Dark blue background color */
+}
+
+.movie-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 0;
+    list-style: none;
+    width: 90vw;
+}
+
+.movie-poster-container {
+    position: relative;
+    width: 15vw;
+    height: 22vw; /* Fixed height for uniform poster size */
+    margin: 0 20px 20px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect on posters */
+}
+
+.movie-poster {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.description-box {
+    position: absolute;
+    background-color: #1f1f1fce;
+    top: 50%;
+    left: 60%;
+    color: #ffffff; /* Black text color */
+    width: 30vw; /* Adjust width dynamically */
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 1s ease;
+    z-index: 999;
+    padding: 2vw;
+    border-radius: 1vw;
+    text-align: justify;
+    line-height: 1.2vw; 
+    display: flex;
+    flex-direction: column;
+    gap: 2vw;
+}
+
+.description-box h2{
+    font-size: 1vw;
+}
+
+.movie-poster-container:hover .description-box {
+    visibility: visible;
+    opacity: 1;
+}
+
+.description-box.right {
+    left: auto;
+    right: calc(70% + 20px);
+    transform: translateX(0);
+}

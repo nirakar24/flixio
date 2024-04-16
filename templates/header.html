@@ -1,0 +1,52 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Entertainment Platform{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <!-- Add styles for dropdown menu -->
+    <link rel="stylesheet" href="{% static 'css/dropdown.css' %}">
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <a href="{% url 'home' %}">
+            <img src="{% static 'images/logo.png' %}" alt="Logo">
+        </a>
+    </div>
+    <div class="user-info">
+        {% if user.is_authenticated %}
+            <!-- Add dropdown menu for authenticated user -->
+            <div class="dropdown">
+                <button class="dropbtn">{{ user.username }}</button>
+                <div class="dropdown-content">
+                    <a href="{% url 'logout' %}">Logout</a>
+                    <a href="{% url 'profile' %}">Profile</a>
+                    <a href="{% url 'all_movies' %}">Movies</a>
+                </div>
+            </div>
+        {% else %}
+            <!-- Add login/signup links for non-authenticated user -->
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'signup' %}">Signup</a>
+        {% endif %}
+    </div>
+    {% if messages %}
+    <script>
+        alert("Added to your wishlist");
+    </script>
+    {% endif %}
+
+</header>
+
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+</body>
+</html>

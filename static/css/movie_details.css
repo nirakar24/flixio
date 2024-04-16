@@ -1,0 +1,148 @@
+* {
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #0a0a2b;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    color: #ffffff;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.intro{
+    width: 90vw;
+    margin-bottom: 2vw;
+}
+
+.nav {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    margin-top: 1vw;
+}
+
+.nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.nav ul li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.video-details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.video {
+    width: 50%;
+}
+
+.description {
+    width: 50%;
+    /* height: 100%; */
+    /* padding-left: 20px; */
+    display: flex;
+    align-items: center;
+    background-color: #85858586;
+    padding: 1vw;
+    border-radius: 0vw 2vw 2vw 0vw;
+    text-align: justify;
+    line-height: 1.2vw;
+    color: #ffffff;
+}
+
+.poster img {
+    width: 200px;
+    height: auto;
+    margin-right: 20px;
+}
+
+.details {
+    flex-grow: 1;
+
+}
+
+.movie-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 0;
+    list-style: none;
+    width: 90vw;
+}
+
+.movie-poster-container {
+    position: relative;
+    width: 15vw;
+    height: 22vw; /* Fixed height for uniform poster size */
+    margin: 0 20px 20px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect on posters */
+}
+
+.movie-poster {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.description-box {
+    position: absolute;
+    background-color: #1f1f1fce;
+    top: 50%;
+    left: 60%;
+    color: #ffffff; /* Black text color */
+    width: 30vw; /* Adjust width dynamically */
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 1s ease;
+    z-index: 999;
+    padding: 2vw;
+    border-radius: 1vw;
+    text-align: justify;
+    line-height: 1.2vw; 
+    display: flex;
+    flex-direction: column;
+    gap: 2vw;
+}
+
+.description-box h2{
+    font-size: 1vw;
+}
+
+.movie-poster-container:hover .description-box {
+    visibility: visible;
+    opacity: 1;
+}
+
+.description-box.right {
+    left: auto;
+    right: calc(70% + 20px);
+    transform: translateX(0);
+}

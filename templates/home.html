@@ -1,0 +1,110 @@
+{% include 'header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latest Releases</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/spotlight.css' %}">
+</head>
+<body>
+    <div class="spotlight-container">
+        <div class="spotlight-movies">
+            {% for movie in spotlight_movies %}
+                <div class="movie-card">
+                    <div class="background-poster">
+                        <img src="{{ movie.background_poster }}" alt="{{ movie.title }} Background Poster">
+                        <div class="backround-overlay"></div>
+                    </div>
+                    <div class="overlay">
+                        <div class="overlay-content">
+                            <h2 class="spot-title">{{ movie.title }}</h2>
+                            <div class="overlay-desc">
+                                <p>{{ movie.description }}</p>
+                            </div>
+                            <a href="{% url 'movie_details' movie.movie_id%}" class="watch-now-button">Watch Now</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+<h1>Latest Releases</h1>
+<ul class="movie-list">
+    {% for movie in latest_releases %}
+        <a href="{% url 'movie_details' movie.movie_id %}">
+            <li>
+                <div class="movie-poster-container">
+                    <img class="movie-poster" src="{{ movie.poster }}" alt="{{ movie.title }} Poster">
+                    <div class="description-box">
+                        <h2>{{ movie.title }}</h2>
+                        <p>{{ movie.description }}</p>
+                    </div>
+                </div>
+            </li>
+        </a>
+    {% endfor %}
+</ul>
+<h1>Trending</h1>
+<ul class="movie-list">
+    {% for movie in trending_movies %}
+        <a href="{% url 'movie_details' movie.movie_id %}">
+            <li>
+                <div class="movie-poster-container">
+                    <img class="movie-poster" src="{{ movie.poster }}" alt="{{ movie.title }} Poster">
+                    <div class="description-box">
+                        <h2>{{ movie.title }}</h2>
+                        <p>{{ movie.description }}</p>
+                    </div>
+                </div>
+            </li>
+        </a>
+    {% endfor %}
+</ul>
+
+<script>
+    var slideIndex = 0; // Initialize slide index to 0
+    showSlides(); // Call the showSlides function to start slideshow
+
+    function showSlides() {
+        var i;
+        var slides = document.getElementsByClassName("movie-card"); // Get all movie cards
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none"; // Hide all movie cards
+        }
+        slideIndex++; // Increment slide index
+        if (slideIndex > slides.length) { 
+            slideIndex = 1; // Reset slide index if it exceeds total number of slides
+        }
+        slides[slideIndex - 1].style.display = "block"; // Display the current slide
+        setTimeout(showSlides, 5000); // Change slide every 5 seconds
+    }
+
+// Dynamically add "right" class to description box if poster is near the right edge of the screen
+        document.addEventListener("DOMContentLoaded", function() {
+            var posters = document.querySelectorAll('.movie-poster-container');
+            posters.forEach(function(poster) {
+                poster.addEventListener('mouseenter', function() {
+                    var posterRect = poster.getBoundingClientRect();
+                    var screenWidth = window.innerWidth;
+                        var distanceToRightEdge = screenWidth - posterRect.right;
+                        var descriptionBox = poster.querySelector('.description-box');
+                        if (distanceToRightEdge < 520) { 
+                            descriptionBox.classList.add('right');
+                        } else {
+                            descriptionBox.classList.remove('right');
+                        }
+                    });
+                });
+            });
+
+</script>
+
+</body>
+</html>

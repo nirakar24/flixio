@@ -1,0 +1,77 @@
+{% include 'header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Movies</title>
+    <!-- Include CSS files -->
+    <link rel="stylesheet" href="{% static 'css/all_movies.css' %}">
+</head>
+<body>
+    <h1>All Movies</h1>
+
+    <!-- Sorting dropdown menu -->
+    <form method="GET">
+        <label for="sort_by">Sort By:</label>
+    <select name="sort_by" id="sort_by">
+        <option value="">-- Select --</option>
+        <option value="release_date">Release Date</option>
+        <option value="popularity">Popularity</option>
+        <option value="vote_average">Vote Average</option>
+    </select>
+    
+    <label for="language">Language:</label>
+    <select name="language" id="language">
+        <option value="">-- Select --</option>
+        <option value="en">English</option>
+        <option value="hi">Hindi</option>
+    </select>
+
+    <button type="submit">Apply Filters</button>
+    </form>
+
+    <!-- Search bar -->
+    <form method="GET">
+        <input type="text" name="search" placeholder="Search movies...">
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Latest releases list -->
+    <ul class="movie-list">
+        {% for movie in movies %}
+            <li>
+                <a href="{% url 'movie_details' movie.movie_id %}">
+                    <div class="movie-poster-container">
+                        <img class="movie-poster" src="{{ movie.poster }}" alt="{{ movie.title }} Poster">
+                        <div class="description-box">
+                            <h2>{{ movie.title }}</h2>
+                            <p>{{ movie.description }}</p>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var posters = document.querySelectorAll('.movie-poster-container');
+        posters.forEach(function(poster) {
+            poster.addEventListener('mouseenter', function() {
+                var posterRect = poster.getBoundingClientRect();
+                var screenWidth = window.innerWidth;
+                    var distanceToRightEdge = screenWidth - posterRect.right;
+                    var descriptionBox = poster.querySelector('.description-box');
+                    if (distanceToRightEdge < 520) { 
+                        descriptionBox.classList.add('right');
+                    } else {
+                        descriptionBox.classList.remove('right');
+                    }
+                });
+            });
+        });
+</script>
+</body>
+</html>

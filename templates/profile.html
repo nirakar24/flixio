@@ -1,0 +1,32 @@
+{% include 'header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/movie_details.css' %}">
+    <title>User Profile</title>
+</head>
+<body>
+    <div class="profile">
+        <h2>Welcome, {{ request.user.username }}</h2>
+        <h3>Wishlist</h3>
+        <ul class="movie-list">
+            {% for movie in movies %}
+                <a href="{% url 'movie_details' movie.movie_id %}">
+                    <li>
+                        <div class="movie-poster-container">
+                            <img class="movie-poster" src="{{ movie.poster }}" alt="{{ movie.title }} Poster">
+                            <div class="description-box">
+                                <h2>{{ movie.title }}</h2>
+                                <p>{{ movie.description }}</p>
+                            </div>
+                        </div>
+                    </li>
+                </a>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

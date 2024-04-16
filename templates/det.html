@@ -1,0 +1,68 @@
+{% include 'header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/details.css' %}">
+    <title>{{ movie.title }} Details</title>
+</head>
+<body>
+    <div class="movie-details">
+        <div class="bg-poster">
+            <img src="{{ movie.background_poster }}" alt="{{ movie.title }} Poster">
+            <div class="overlay">
+                <div class="overlay-content">
+                    <h1>{{ movie.title }}</h1>
+                    <p>{{ movie.description }}</p>
+                    {% if user.is_authenticated %}
+                        <form action="{% url 'add_to_wishlist' movie.movie_id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="watch-now-button">Add to Wishlist</button>
+                        </form>
+                    {% endif %}
+
+                </div>
+                
+            </div>
+        </div>
+        <div class="trailer-section">
+            <!-- <h2>Trailer</h2> -->
+            {% for trailer in trailers %}
+            <div class="trailer">
+                <!-- <h3>{{ trailer.title }}</h3> -->
+                <iframe width="560" height="315" src="{{ trailer.video_url }}" frameborder="0" allowfullscreen></iframe>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="stream">
+        {% if movie.streaming_url %}
+        <h2>Stream Now</h2>
+        <video controls>
+            <source src="{{ movie.streaming_url }}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        {% endif %}
+    </div>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">{% if message.tags == 'alert' %}{{ message }}{% else %}{{ message }}{% endif %}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+</body>
+<script>
+    // Automatically dismiss alert messages after 2 seconds
+    setTimeout(function() {
+        var alert = document.querySelector('.alert');
+        if (alert) {
+            alert.style.display = 'none';
+        }
+    }, 2000);
+</script>
+
+</html>

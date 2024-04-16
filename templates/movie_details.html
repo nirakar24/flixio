@@ -1,0 +1,100 @@
+{% include 'header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ movie.title }} Details</title>
+    <link rel="stylesheet" href="{% static 'css/movie_details.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="intro">
+            <div class="nav">
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="#">Videos</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="video-details">
+                <div class="video">
+                    <!-- <img src="{{ movie.background_poster }}" alt="{{ movie.title }} Poster"> -->
+                    <video controls width="100%" poster="{{ movie.background_poster }}">
+                        <source src="{{ movie.streaming_url }}" type="video/mp4" >
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="description">
+                    <div class="poster">
+                        <img src="{{ movie.poster }}" alt="{{ movie.title }} Poster">
+                    </div>
+                    <div class="details">
+                        <h1>{{ movie.title }}</h1>
+                        <p>{{ movie.description }}</p>
+                        <p>Rating: {{ movie.vote_average }}</p>
+                        {% if user.is_authenticated %}
+                            <form action="{% url 'add_to_wishlist' movie.movie_id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="watch-now-button">Add to Wishlist</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <ul class="movie-list">
+            {% for movie in latest_releases %}
+                <a href="{% url 'movie_details' movie.movie_id %}">
+                    <li>
+                        <div class="movie-poster-container">
+                            <img class="movie-poster" src="{{ movie.poster }}" alt="{{ movie.title }} Poster">
+                            <div class="description-box">
+                                <h2>{{ movie.title }}</h2>
+                                <p>{{ movie.description }}</p>
+                            </div>
+                        </div>
+                    </li>
+                </a>
+            {% endfor %}
+        </ul>
+    </div>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">{% if message.tags == 'alert' %}{{ message }}{% else %}{{ message }}{% endif %}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</body>
+<script>
+    // Automatically dismiss alert messages after 2 seconds
+    setTimeout(function() {
+        var alert = document.querySelector('.alert');
+        if (alert) {
+            alert.style.display = 'none';
+        }
+    }, 2000);
+
+    document.addEventListener("DOMContentLoaded", function() {
+            var posters = document.querySelectorAll('.movie-poster-container');
+            posters.forEach(function(poster) {
+                poster.addEventListener('mouseenter', function() {
+                    var posterRect = poster.getBoundingClientRect();
+                    var screenWidth = window.innerWidth;
+                        var distanceToRightEdge = screenWidth - posterRect.right;
+                        var descriptionBox = poster.querySelector('.description-box');
+                        if (distanceToRightEdge < 520) { 
+                            descriptionBox.classList.add('right');
+                        } else {
+                            descriptionBox.classList.remove('right');
+                        }
+                    });
+                });
+            });
+
+</script>
+</html>
