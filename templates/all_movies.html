@@ -13,7 +13,7 @@
     <h1>All Movies</h1>
 
     <!-- Sorting dropdown menu -->
-    <form method="GET">
+    <form method="GET" class="filters-form">
         <label for="sort_by">Sort By:</label>
     <select name="sort_by" id="sort_by">
         <option value="">-- Select --</option>
@@ -33,7 +33,7 @@
     </form>
 
     <!-- Search bar -->
-    <form method="GET">
+    <form method="GET" class="search-form">
         <input type="text" name="search" placeholder="Search movies...">
         <button type="submit">Search</button>
     </form>
@@ -54,6 +54,21 @@
             </li>
         {% endfor %}
     </ul>
+
+    <div class="pagination">
+        {% if movies.has_previous %}
+            <a href="?page={{ movies.previous_page_number }}{% if sort_by %}&sort_by={{ sort_by }}{% endif %}{% if language %}&language={{ language }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}" class="pagination-link"><img src="{% static 'images/left.png' %}" alt="Previous Page" width="1vw"></a>
+        {% endif %}
+    
+        <span class="page-info">Page {{ movies.number }} of {{ movies.paginator.num_pages }}</span>
+    
+        {% if movies.has_next %}
+            <a href="?page={{ movies.next_page_number }}{% if sort_by %}&sort_by={{ sort_by }}{% endif %}{% if language %}&language={{ language }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}" class="pagination-link"><img src="{% static 'images/right.png' %}" alt="Previous Page" width="1vw""></a>
+        {% endif %}
+    </div>
+    
+    
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {

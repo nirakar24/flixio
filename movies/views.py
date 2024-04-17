@@ -8,6 +8,7 @@ from django.contrib.auth import login, logout
 from .models import *
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def recommend_movies(movie, num_recommendations=10):
     # Fetch all Hindi and English movies from the database
@@ -129,6 +130,7 @@ def movie_details(request, movie_id):
 def all_movies(request):
     # Get all movies from the database
     movies = Movie.objects.all()
+    print(len(movies))
 
     # Sorting functionality based on user selection
     sort_by = request.GET.get('sort_by')
@@ -146,5 +148,30 @@ def all_movies(request):
     elif language == 'en':
         movies = movies.filter(Q(original_language='en') | Q(original_language='eng'))
 
-    context = {'movies': movies}
+    search_query = request.GET.get('search')
+    if search_query:
+        movies = movies.filter(title__icontains=search_query)
+
+    movies_per_page = 20
+
+    paginator = Paginator(movies, movies_per_page)
+
+    page = request.GET.get('page')
+
+    try:
+        movies_page = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        movies_page = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        movies_page = paginator.page(paginator.num_pages)
+
+    context = {
+        'movies': movies_page,
+        'movies_per_page': movies_per_page,
+        'sort_by': sort_by,
+        'language': language,
+        'search_query': search_query
+    }
     return render(request, 'all_movies.html', context)

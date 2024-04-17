@@ -7,7 +7,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: black;
+    color: rgb(255, 255, 255);
     margin: 0;
     padding: 0;
     overflow-x: hidden;
@@ -71,3 +71,63 @@ body {
     right: calc(70% + 20px);
     transform: translateX(0);
 }
+
+.pagination {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+
+.pagination-link {
+    margin: 0 5px;
+    padding: 1vw 1vw;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    width: 2vw;
+}
+
+.pagination-link img {
+    width: 1.5vw; /* Adjust the width as needed */
+    /* height: auto; Maintain aspect ratio */
+    object-fit: contain;
+}
+
+
+.pagination-link:hover {
+    background-color: #0056b3;
+}
+
+
+.page-info {
+    margin: 0 10px;
+}
+.filters-form, .search-form {
+    margin-bottom: 20px;
+}
+
+.filters-form label, .search-form label {
+    margin-right: 10px;
+}
+
+.filters-form select, .search-form input[type="text"] {
+    padding: 5px;
+    font-size: 16px;
+}
+
+.filters-form button, .search-form button {
+    padding: 5px 10px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.filters-form button:hover, .search-form button:hover {
+    background-color: #0056b3;
+}
+
